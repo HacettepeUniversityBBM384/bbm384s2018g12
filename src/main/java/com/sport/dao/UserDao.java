@@ -13,8 +13,13 @@ import java.util.Optional;
 public interface UserDao extends CrudRepository<User, Long>{
 
 
-	Optional<User> findById(long id);
 	List<User> findByType(String type);
+	
+	Optional<User> findById(Long id);
+	
+	void deleteById(Long id);
+	 
+	List<User> findAll();
     
 }
 
