@@ -116,7 +116,9 @@ public class SystemManagerController {
 
 		User emp = userServiceImpl.findById(id).get();
 		emp.setType(type);
-		
+		emp.setFirstName(employee.getFirstName());
+		emp.setLastName(employee.getLastName());
+	    
 		//Make changes, save them and list all employees
 		model.addAttribute("employees", getAllEmployees());
 
