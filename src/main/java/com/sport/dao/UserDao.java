@@ -14,13 +14,13 @@ public interface UserDao extends CrudRepository<User, Long>{
 
 
 	List<User> findByType(String type);
-	
 	Optional<User> findById(Long id);
 	
 	void deleteById(Long id);
 	 
 	List<User> findAll();
-    
+   	
+	List<User> findByFirstName(String name);
 }
 
 
