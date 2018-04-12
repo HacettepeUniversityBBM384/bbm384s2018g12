@@ -33,7 +33,7 @@ public class SystemManagerController {
 	@Autowired
 	private EmailService emailService;
 	
-	
+
 	@RequestMapping(value="", method = RequestMethod.GET)
     public String system_manager(Model model) {
 
@@ -43,7 +43,7 @@ public class SystemManagerController {
         return "manipulate";
     }
 
-
+	// If system manager selects create employee choice, then system manager will be directed to "add employee" view with a new User created
 	@RequestMapping(value="add_employee",  method = RequestMethod.GET)
     public String add_employee_get(@Valid @ModelAttribute("employee") User employee, Model model) {
 		
@@ -56,14 +56,20 @@ public class SystemManagerController {
 	@RequestMapping(value="add_employee",  method = RequestMethod.POST)
     public String add_employee_post(@Valid @ModelAttribute("employee") User employee, Model model) {
 		
+		// Get selected employee type, then set new user's type to it
+		
 		if(employee.getType().equals("trainer"))
 			employee.setType("Trainer");
 		else if(employee.getType().equals("system_manager"))
 			employee.setType("System Manager");
 		else if(employee.getType().equals("branch_manager"))
 			employee.setType("Branch Manager");
+			
+		// Create a random password
 		employee.setPassword(UUID.randomUUID().toString().substring(0, 10).replace("-", ""));
     	
+		
+		//Send employee his/her access information(mail and randomly created password)
 		String from = "bene-fit@benefit.com";
 		String to = employee.getMail();
 		String subject = "Bene-fit registration";
@@ -73,14 +79,15 @@ public class SystemManagerController {
 				    + "Password: " + employee.getPassword() + "\n"
 				    + "Sincerely.";
 
+		// Send e-mail
 		emailService.sendSimpleMessage(from, to, subject, content);
 		
+		// Save user to database
 		userServiceImpl.saveUser(employee);
-		//Barkin redirected to system manager page
-		return "redirect:/system-manager";
+		return "add_employee";
 	}
 
-
+	// If system manager selects to update, then update view will be shown
 	@RequestMapping(value = "/update/{id}")
     public String update_employee(@PathVariable long id, Model model, HttpSession session) {
 		User emp = userServiceImpl.findById(id).get();
@@ -94,9 +101,10 @@ public class SystemManagerController {
 	@RequestMapping(value="", method = RequestMethod.POST)
     public String update_employee(@Valid @ModelAttribute("employee") User employee, Model model) {
 		
+		// System manager can only change employee type and name
 		long id = employee.getId();
 		String type = employee.getType();
-		
+
 		
 		if(type.equals("trainer"))
 			type="Trainer";
@@ -108,15 +116,14 @@ public class SystemManagerController {
 
 		User emp = userServiceImpl.findById(id).get();
 		emp.setType(type);
-		emp.setFirstName(employee.getFirstName());
-		emp.setLastName(employee.getLastName());
 		
+		//Make changes, save them and list all employees
 		model.addAttribute("employees", getAllEmployees());
 
 		return "manipulate";
     }
 
-
+	// This method deletes existing employee
 	@RequestMapping(value = "/delete/{id}")
     public String delete_employee(@PathVariable long id, Model model, HttpSession session) {
 		
@@ -125,7 +132,7 @@ public class SystemManagerController {
     	return "redirect:/system-manager";
     }
 
-
+	// Listing method to list all existing employees in database
 	private List<User> getAllEmployees() {
 		
 		List<User> trainers = userServiceImpl.findByType("Trainer");
@@ -140,7 +147,6 @@ public class SystemManagerController {
 	
 	
 }
-
 
 
 
