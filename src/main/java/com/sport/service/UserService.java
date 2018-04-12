@@ -11,7 +11,7 @@ import com.sport.domain.User;
 public interface UserService {
 	
 	List<User> findByType(String type);
-	
+	List<User> findByName(String name);
 	Optional<User> findById(Long id);
 	 
 	void saveUser(User usr);
