@@ -76,7 +76,8 @@ public class SystemManagerController {
 		emailService.sendSimpleMessage(from, to, subject, content);
 		
 		userServiceImpl.saveUser(employee);
-		return "add_employee";
+		//Barkin redirected to system manager page
+		return "redirect:/system-manager";
 	}
 
 
@@ -95,7 +96,7 @@ public class SystemManagerController {
 		
 		long id = employee.getId();
 		String type = employee.getType();
-
+		
 		
 		if(type.equals("trainer"))
 			type="Trainer";
@@ -107,6 +108,8 @@ public class SystemManagerController {
 
 		User emp = userServiceImpl.findById(id).get();
 		emp.setType(type);
+		emp.setFirstName(employee.getFirstName());
+		emp.setLastName(employee.getLastName());
 		
 		model.addAttribute("employees", getAllEmployees());
 
