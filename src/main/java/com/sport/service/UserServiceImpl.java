@@ -52,7 +52,9 @@ public class UserServiceImpl implements UserService {
         return findById(user.getId()) != null;
     }
 
-
+    public List<User> findByName(String name) {
+	return userDao.findByFirstName(name);
+    }
 
    
 
