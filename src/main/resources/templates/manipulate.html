@@ -3,7 +3,7 @@
 <head th:replace="common2/header :: common-header"/>
 
 <body class="hold-transition skin-blue sidebar-mini">
-<head th:replace="common2/sidebar :: common-sidebar"/>
+<head th:replace="common2/sidebarSystemManager :: common-sidebar"/>
 
 <div>
 <div th:replace="common2/header :: common-mainpanel"/>
@@ -26,7 +26,7 @@
             <div class="box-header">
               <h3 class="box-title">Employees</h3>
             </div>
-      		<a th:href="@{/system-manager/add_employee}" type="button" class="btn btn-block btn-success">Create Employee</a>
+      		<a th:href="@{/system-manager/manipulate/add_employee}" type="button" class="btn btn-block btn-success">Create Employee</a>
       
             <!-- /.box-header -->
             <div class="box-body">
@@ -45,13 +45,12 @@
                 <tbody>
 				
 				<tr role="row" class="odd" th:each="employee : ${employees}">
-					
 					<td th:text="${employee.id}"></td>
    					<td th:text="${employee.firstName}"></td>
    					<td th:text="${employee.lastName}"></td>
    					<td th:text="${employee.type}"></td>
-	                <td><a type="button" th:href="@{'/system-manager/delete/'+${employee.id}}" class="btn btn-block btn-danger">Delete</a></td>
-	                <td><a type="button" th:href="@{'/system-manager/update/'+${employee.id}}" class="btn btn-block btn-info">Update</a></td>
+	                <td><a type="button" th:href="@{'/system-manager/manipulate/delete/'+${employee.id}}" class="btn btn-block btn-danger">Delete</a></td>
+	                <td><a type="button" th:href="@{'/system-manager/manipulate/update/'+${employee.id}}" class="btn btn-block btn-info">Update</a></td>
 		        </tr>
 
               </tbody>
