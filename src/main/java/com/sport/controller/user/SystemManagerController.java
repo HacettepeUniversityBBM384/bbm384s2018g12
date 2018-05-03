@@ -57,18 +57,20 @@ public class SystemManagerController {
 	
 	/*list courses*/
 	
-	@RequestMapping(value="/courses")
-    public String show_courses(Model model) {
-		model.addAttribute("courses", courseService.findAll());
-        return "SM_list_course";
-    }
 	
+	/*course deleting*/
 	@RequestMapping(value = "/courses/delete/{id}")
     public String deleteCourse(@PathVariable long id, Model model, HttpSession session) {
 		
 		courseService.deleteCourseById(id);
 		
     	return "redirect:/system-manager/courses";
+    }
+	
+	@RequestMapping(value="/courses")
+    public String show_courses(Model model) {
+		model.addAttribute("courses", courseService.findAll());
+        return "SM_list_course";
     }
 	
 	/*list branch*/
@@ -98,11 +100,11 @@ public class SystemManagerController {
 		
 		User usr = (User) session.getAttribute("user");
 		
-		model.addAttribute(new Course());
+		model.addAttribute(new Course()); /*new course is binded to view*/
 		model.addAttribute("username", usr.getFirstName() + " " + usr.getLastName());
         return "SM_define_course";
     }
-	
+
 
 	@RequestMapping(value="/define_course",  method = RequestMethod.POST)
     public String defineCoursePost(@Valid @ModelAttribute("course") Course course, Model model, HttpSession session) {
