@@ -34,6 +34,45 @@ public class SystemManagerController {
 	private UserService userService;
 
 
+	/*define branch*/
+	@RequestMapping("define_branch")
+    public String defineBranch(Model model, HttpSession session, @Valid @ModelAttribute("branch") Branch branch) {
+		if(session.getAttribute("user")==null)
+            return "redirect:/login";
+		
+		User usr = (User) session.getAttribute("user");
+		
+		model.addAttribute(new Branch());
+		model.addAttribute("username", usr.getFirstName() + " " + usr.getLastName());
+        return "SM_define_branch";
+    }
+
+
+	@RequestMapping(value="/define_branch",  method = RequestMethod.POST)
+    public String defineBranchPost(@Valid @ModelAttribute("branch") Branch branch, Model model, HttpSession session) {
+		if(session.getAttribute("user")==null)
+            return "redirect:/login";
+		User usr = (User) session.getAttribute("user");
+		model.addAttribute("username", usr.getFirstName() + " " + usr.getLastName());
+
+
+		Optional<Branch> br = branchService.findByBranchName(branch.getBranchName());
+
+		if(br.isPresent()) { /*checks if branch exists.*/
+			model.addAttribute("error", " Branch is already exists!");
+			return "SM_define_branch";
+		}else {
+			branchService.saveBranch(branch);
+			model.addAttribute("success", branch.getBranchName() + " has been defined successfully!");
+		}
+		
+		
+		
+        return "SM_define_branch";
+    }
+	
+	
+	
 	@RequestMapping("")
     public String index(Model model, HttpSession session) {
 		if(session.getAttribute("user")==null)
