@@ -32,7 +32,50 @@ public class SystemManagerController {
 
 	@Autowired
 	private UserService userService;
+	
+	@Autowired
+	private BranchService branchService;
+	
+	@Autowired
+	private CourseService courseService;
+	
+	@Autowired
+	private EmailService emailService;
 
+	
+	/*list courses*/
+	@RequestMapping(value="/courses")
+    public String show_courses(Model model) {
+		model.addAttribute("courses", courseService.findAll());
+        return "SM_list_course";
+    }
+	
+	@RequestMapping(value = "/courses/delete/{id}")
+    public String deleteCourse(@PathVariable long id, Model model, HttpSession session) {
+		
+		courseService.deleteCourseById(id);
+		
+    	return "redirect:/system-manager/courses";
+    }
+	
+	/*list branch*/
+	
+	@RequestMapping(value="/branches")
+    public String show_branchs(Model model) {
+
+		model.addAttribute("branches", branchService.findAllBranchs());
+
+        return "SM_list_branch";
+    }
+	
+	@RequestMapping(value = "/branches/delete/{id}")
+    public String deleteBranch(@PathVariable long id, Model model, HttpSession session) {
+		
+		branchService.deleteBranchById(id);
+		
+    	return "redirect:/system-manager/branches";
+    }
+	
 	/*define course*/
 	@RequestMapping("define_course")
     public String defineCourse(Model model, HttpSession session, @Valid @ModelAttribute("branch") Course course) {
