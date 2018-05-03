@@ -33,6 +33,42 @@ public class SystemManagerController {
 	@Autowired
 	private UserService userService;
 
+	/*define course*/
+	@RequestMapping("define_course")
+    public String defineCourse(Model model, HttpSession session, @Valid @ModelAttribute("branch") Course course) {
+		if(session.getAttribute("user")==null)
+            return "redirect:/login";
+		
+		User usr = (User) session.getAttribute("user");
+		
+		model.addAttribute(new Course());
+		model.addAttribute("username", usr.getFirstName() + " " + usr.getLastName());
+        return "SM_define_course";
+    }
+	
+
+	@RequestMapping(value="/define_course",  method = RequestMethod.POST)
+    public String defineCoursePost(@Valid @ModelAttribute("course") Course course, Model model, HttpSession session) {
+		if(session.getAttribute("user")==null)
+            return "redirect:/login";
+		User usr = (User) session.getAttribute("user");
+		model.addAttribute("username", usr.getFirstName() + " " + usr.getLastName());
+
+
+		Optional<Course> c = courseService.findByName(course.getName());
+
+		if(c.isPresent()) {
+			model.addAttribute("error", " Course is already exists!");
+			return "SM_define_course";
+		}else {
+			course.setOpen(false);
+			courseService.saveCourse(course);
+			model.addAttribute("success", course.getName() + " has been defined successfully!");
+		}
+		
+        return "SM_define_course";
+    }
+	
 
 	/*define branch*/
 	@RequestMapping("define_branch")
