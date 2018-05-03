@@ -100,7 +100,7 @@ public class SystemManagerController {
 
 		Optional<Course> c = courseService.findByName(course.getName());
 
-		if(c.isPresent()) {
+		if(c.isPresent()) { /*check wheter course exists.*/
 			model.addAttribute("error", " Course is already exists!");
 			return "SM_define_course";
 		}else {
