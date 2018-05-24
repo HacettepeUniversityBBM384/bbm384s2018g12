@@ -1,13 +1,22 @@
 package com.sport.domain;
 
 import java.util.List;
+import java.util.Set;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
+
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
+import org.hibernate.annotations.Proxy;
+import org.springframework.transaction.annotation.Transactional;
 
 @Entity
 public class Branch {
@@ -23,13 +32,24 @@ public class Branch {
     @OneToOne
     private User branchManager;
 
-
+    
     @OneToMany
-    private List<Course> openCourses;
-
-
+    public List<User> trainers;
+    
     @OneToMany
-    private List<User> trainers;
+    public List<Course> openCourses;
+    
+    
+    
+    
+    public List<Course> getOpenCourses() {
+		return openCourses;
+	}
+
+
+	public void setOpenCourses(List<Course> openCourses) {
+		this.openCourses = openCourses;
+	}
 
 
 	public long getId() {
@@ -72,25 +92,6 @@ public class Branch {
 	}
 
 
-	public List<Course> getOpenCourses() {
-		return openCourses;
-	}
-
-
-	public void setOpenCourses(List<Course> openCourses) {
-		this.openCourses = openCourses;
-	}
-
-
-	public List<User> getTrainers() {
-		return trainers;
-	}
-
-
-	public void setTrainers(List<User> trainers) {
-		this.trainers = trainers;
-	}
-    
     
 }
 

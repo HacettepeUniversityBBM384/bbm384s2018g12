@@ -1,6 +1,7 @@
 package com.sport.domain;
 
 import java.util.List;
+import java.util.Set;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
@@ -15,6 +16,8 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 
+import org.springframework.transaction.annotation.Transactional;
+
 import com.fasterxml.jackson.annotation.JsonBackReference;
 
 @Entity
@@ -25,16 +28,34 @@ public class Course {
     private long id;
 
     private String name;
-    private boolean isOpen;
+    private int quota;
     
-    
-    @ManyToOne
-    @JoinColumn(name = "trainer_id")
+    @OneToOne
     private User trainer;
     
+    private double fee;
     
-    @OneToMany
-    private List<User> customers;
+    
+
+	
+	public double getFee() {
+		return fee;
+	}
+
+
+	public void setFee(double fee) {
+		this.fee = fee;
+	}
+
+
+	public int getQuota() {
+		return quota;
+	}
+
+
+	public void setQuota(int quota) {
+		this.quota = quota;
+	}
 
 
 	public String getName() {
@@ -47,15 +68,6 @@ public class Course {
 	}
 
 
-	public boolean isOpen() {
-		return isOpen;
-	}
-
-
-	public void setOpen(boolean isOpen) {
-		this.isOpen = isOpen;
-	}
-
 
 	public User getTrainer() {
 		return trainer;
@@ -64,16 +76,6 @@ public class Course {
 
 	public void setTrainer(User trainer) {
 		this.trainer = trainer;
-	}
-
-
-	public List<User> getCustomers() {
-		return customers;
-	}
-
-
-	public void setCustomers(List<User> customers) {
-		this.customers = customers;
 	}
 
 
