@@ -1,13 +1,27 @@
 package com.sport.domain;
 
+import java.util.List;
+import java.util.Set;
+
+import javax.persistence.CascadeType;
+import javax.persistence.DiscriminatorColumn;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.Inheritance;
+import javax.persistence.InheritanceType;
+import javax.persistence.ManyToMany;
+import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
+
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
 
 @Entity
 public class User {
-
+	
 	 	@Id
 	    @GeneratedValue(strategy = GenerationType.AUTO)
 	    private long id;
@@ -17,9 +31,22 @@ public class User {
 	    private String password;
 	    private String mail;
 	    private String type;
+	    
+	    
+	    @OneToMany(fetch=FetchType.EAGER)
+	    public List<Course> myCoursesT; //for trainers
+	    
+	    
+	    @OneToMany(fetch=FetchType.EAGER)
+	    @Fetch(value = FetchMode.SUBSELECT)
+	    public List<Course> myCoursesC; //for customer
 
 
-	    public long getId() {
+	    @OneToOne
+	    public Branch branch;
+
+
+		public long getId() {
 	        return id;
 	    }
 
@@ -67,14 +94,4 @@ public class User {
 	        this.type = type;
 	    }
 
-	    @Override
-	    public String toString() {
-	        return "Student{" +
-	                "id=" + id +
-	                ", firstName='" + firstName + '\'' +
-	                ", lastName='" + lastName + '\'' +
-	                ", password='" + password + '\'' +
-	                ", mail='" + mail + '\'' +
-	                '}';
-	    }
 	}
