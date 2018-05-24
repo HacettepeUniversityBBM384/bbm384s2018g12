@@ -13,7 +13,7 @@
     <!-- Content Header (Page header) -->
     <section class="content-header">
       <h1>
-        Create Employee
+        Define Branch
       </h1>
 
     </section>
@@ -40,7 +40,15 @@
                   <label for="exampleInputPassword1">Location</label>
                   <input type="text" class="form-control" th:field="*{location}" th:value="*{location}" placeholder="Enter surname">
                 </div>
-				
+                
+                <label for="exampleInputPassword1">Free Branch Managers</label>
+				<div class="form-group" th:object="${branch_manager}">
+                  <select th:field="*{id}">
+                  		<option th:each="bm : ${branchManagers}"
+                  		 		th:value="${bm.id} " 
+                  				th:text="${bm.id} + '-' + ${bm.firstName} + ' ' + ${bm.lastName}"/>
+                  </select>
+                </div>
               </div>
               <!-- /.box-body -->
               
