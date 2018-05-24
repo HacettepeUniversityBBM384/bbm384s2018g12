@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head th:replace="common2/header :: common-header"/>
+
+<body class="hold-transition skin-blue sidebar-mini">
+<head th:replace="common2/sidebarSystemManager :: common-sidebar"/>
+
+<div>
+<div th:replace="common2/header :: common-mainpanel"/>
+</div>
+
+<div class="content-wrapper">
+    <!-- Content Header (Page header) -->
+    <section class="content-header">
+      <h1>
+        Create Employee
+      </h1>
+
+    </section>
+
+    <!-- Main content -->
+    <section class="content">
+
+
+		<div class="box box-primary">
+            <div class="box-header with-border">
+              <h3 class="box-title">Create Employee</h3>
+            </div>
+            <!-- /.box-header -->
+
+            <!-- form start -->
+            <form role="form" action="#" th:action="@{/system-manager/add_employee}" th:object="${employee}" method="post">
+              <div class="box-body">
+
+                <div class="form-group">
+                  <label for="exampleInputEmail1">Name</label>
+                  <input type="text" class="form-control" th:field="*{firstName}" th:value="*{firstName}" placeholder="Enter name">
+                </div>
+                <div class="form-group">
+                  <label for="exampleInputPassword1">Surname</label>
+                  <input type="text" class="form-control" th:field="*{lastName}" th:value="*{lastName}" placeholder="Enter surname">
+                </div>
+				
+				<div class="form-group">
+                  <label for="exampleInputPassword1">Email</label>
+                  <input type="text" class="form-control" th:field="*{mail}" th:value="*{lastName}" placeholder="Enter email address">
+                </div>
+                
+               	<div class="form-group">
+                  <label>Select Type</label>
+                  <select th:field="*{type}" class="form-control">
+                    <option th:value ="trainer">Trainer</option>
+                    <option th:value ="system_manager">System Manager</option>
+                    <option th:value ="branch_manager">Branch Manager</option>
+                  </select>
+                </div>
+
+              </div>
+              <!-- /.box-body -->
+              <div class="box-footer">
+                <button type="submit" class="btn btn-primary">Submit</button>
+              </div>
+            </form>
+          </div>
+
+
+
+    </section>
+    <!-- /.content -->
+  </div>
+  <!-- /.content-wrapper -->
+
+<div th:replace="common2/footer :: common-footer">
+
+</body>
+
+</html>
