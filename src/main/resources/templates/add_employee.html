@@ -29,7 +29,7 @@
             <!-- /.box-header -->
 
             <!-- form start -->
-            <form role="form" action="#" th:action="@{/system-manager/add_employee}" th:object="${employee}" method="post">
+            <form role="form" action="#" th:action="@{/system-manager/manipulate/add_employee}" th:object="${employee}" method="post">
               <div class="box-body">
 
                 <div class="form-group">
@@ -49,12 +49,14 @@
                	<div class="form-group">
                   <label>Select Type</label>
                   <select th:field="*{type}" class="form-control">
-                    <option th:value ="trainer">Trainer</option>
-                    <option th:value ="system_manager">System Manager</option>
-                    <option th:value ="branch_manager">Branch Manager</option>
+                    <option th:value ="system-manager">System Manager</option>
+                    <option th:value ="branch-manager">Branch Manager</option>
                   </select>
                 </div>
-
+				<div th:if="${errorMessage}" class="alert alert-danger alert-dismissible">
+			                <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+			                <h5><i class="icon fa fa-ban" th:text=${errorMessage}></i></h5>
+			    </div>
               </div>
               <!-- /.box-body -->
               <div class="box-footer">
